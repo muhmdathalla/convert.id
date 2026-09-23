@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert.id — Universal All-in-One Engine</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Tactical Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="brand">
+        <span class="brand-bracket">[</span>
+        <span class="brand-text">CONVERT.ID</span>
+        <span class="brand-bracket">]</span>
+      </div>
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-label">ENGINE: LOCAL_OFFLINE</span>
+      </div>
+      <div class="meta-badge">SYS: v1.0.0-PRO</div>
+    </div>
+    <div class="topbar-right">
+      <span class="shortcut-tip"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to Convert</span>
+      <a href="https://github.com/muhmdathalla/convert.id" target="_blank" class="nav-link">GITHUB REPO ↗</a>
+    </div>
+  </header>
+
+  <!-- Main Grid Workbench -->
+  <div class="workbench">
+    <!-- Left Panel: Source Inspector -->
+    <aside class="panel inspector-panel">
+      <div class="panel-header">
+        <span class="panel-title">// 01. SOURCE INSPECTOR</span>
+      </div>
+      
+      <div id="inspectorEmpty" class="inspector-empty">
+        <div class="crosshair-box">
+          <p>NO FILE LOADED</p>
+          <span class="subtext">Drop file on center canvas to sniff header signature</span>
+        </div>
+      </div>
+
+      <div id="inspectorData" class="inspector-data hidden">
+        <div class="preview-canvas-wrap">
+          <div id="previewContainer" class="preview-container"></div>
+        </div>
+
+        <div class="prop-group">
+          <span class="prop-label">FILENAME</span>
+          <span id="propFilename" class="prop-val mono truncate">-</span>
+        </div>
+
+        <div class="prop-group">
+          <span class="prop-label">DETECTED FORMAT</span>
+          <span id="propFormat" class="prop-val badge-mono">-</span>
+        </div>
+
+        <div class="prop-group">
+          <span class="prop-label">FILE SIZE</span>
+          <span id="propSize" class="prop-val mono">-</span>
+        </div>
+
+        <div class="prop-group">
+          <span class="prop-label">MAGIC HEADER</span>
+          <span id="propMagic" class="prop-val mono dim-text">-</span>
+        </div>
+
+        <div class="prop-group">
+          <span class="prop-label">CATEGORY</span>
+          <span id="propCategory" class="prop-val mono">-</span>
+        </div>
+      </div>
+
+      <div class="system-health">
+        <div class="health-header">// ENGINE MATRIX STATUS</div>
+        <div id="healthList" class="health-list">
+          <div class="health-item"><span>PILLOW (IMAGE)</span><span class="status-online">READY</span></div>
+          <div class="health-item"><span>PYPDF (DOCUMENT)</span><span class="status-online">READY</span></div>
+          <div class="health-item"><span>OPENCV (VISION)</span><span class="status-online">READY</span></div>
+          <div class="health-item"><span>PANDAS (DATA/SQL)</span><span class="status-online">READY</span></div>
+          <div class="health-item"><span>FFMPEG (AV ENGINE)</span><span id="ffmpegStatus" class="status-online">DETECTING...</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Stage: Dropzone & Conversion Controls -->
+    <main class="panel center-panel">
+      <!-- Drop Area -->
+      <div class="drop-section">
+        <div id="dropzone" class="dropzone">
+          <input type="file" id="fileInput" class="file-input-hidden">
+          <div class="dropzone-corners">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+          </div>
+          <div class="dropzone-content">
+            <div class="drop-icon">⤓</div>
+            <div class="drop-title">DRAG & DROP RAW FILE OR CLICK TO SELECT</div>
+            <div class="drop-desc">All formats supported: JFIF, PNG, WEBP, HEIC, MP4, MKV, PDF, DOCX, CSV, JSON, ZIP, etc.</div>
+            <div class="drop-prompt"><kbd>Click to browse filesystem</kbd></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Format Selector Matrix -->
+      <div class="format-selection-section">
+        <div class="section-label">// 02. TARGET CONVERSION MATRIX</div>
+        <div class="format-grid">
+          <div class="format-category">
+            <span class="cat-title">IMAGE</span>
+            <div class="cat-buttons" data-cat="image">
+              <button class="fmt-btn" data-fmt="png">PNG</button>
+              <button class="fmt-btn" data-fmt="jpg">JPG</button>
+              <button class="fmt-btn" data-fmt="webp">WEBP</button>
+              <button class="fmt-btn" data-fmt="svg">SVG (VECTOR)</button>
+              <button class="fmt-btn" data-fmt="ico">ICO (ICON)</button>
+              <button class="fmt-btn" data-fmt="avif">AVIF</button>
+            </div>
+          </div>
+
+          <div class="format-category">
+            <span class="cat-title">VIDEO & AUDIO</span>
+            <div class="cat-buttons" data-cat="video">
+              <button class="fmt-btn" data-fmt="mp4">MP4</button>
+              <button class="fmt-btn" data-fmt="webm">WEBM</button>
+              <button class="fmt-btn" data-fmt="gif">GIF (OPTIMIZED)</button>
+              <button class="fmt-btn" data-fmt="mp3">MP3 (AUDIO RIP)</button>
+              <button class="fmt-btn" data-fmt="wav">WAV (LOSSLESS)</button>
+              <button class="fmt-btn" data-fmt="flac">FLAC</button>
+            </div>
+          </div>
+
+          <div class="format-category">
+            <span class="cat-title">DOCUMENTS & PUBLISHING</span>
+            <div class="cat-buttons" data-cat="document">
+              <button class="fmt-btn" data-fmt="pdf">PDF (FORTRESS)</button>
+              <button class="fmt-btn" data-fmt="md">MARKDOWN</button>
+              <button class="fmt-btn" data-fmt="epub">EPUB (E-BOOK)</button>
+              <button class="fmt-btn" data-fmt="html">CLEAN HTML</button>
+              <button class="fmt-btn" data-fmt="txt">PLAIN TXT</button>
+            </div>
+          </div>
+
+          <div class="format-category">
+            <span class="cat-title">DATA & CODE ASSETS</span>
+            <div class="cat-buttons" data-cat="data">
+              <button class="fmt-btn" data-fmt="sql">SQL SCHEMA+INSERTS</button>
+              <button class="fmt-btn" data-fmt="json">JSON</button>
+              <button class="fmt-btn" data-fmt="yaml">YAML</button>
+              <button class="fmt-btn" data-fmt="csv">CSV</button>
+              <button class="fmt-btn" data-fmt="xlsx">EXCEL XLSX</button>
+              <button class="fmt-btn" data-fmt="tsx">REACT TSX</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 20 Anti-Mainstream Superpowers Drawer -->
+      <div class="superpowers-section">
+        <div class="section-label">// 03. ANTI-MAINSTREAM POWER SUITE (20 UNEXPECTED MODES)</div>
+        <div class="superpowers-grid">
+          <label class="toggle-card">
+            <input type="checkbox" id="optTargetBudget">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">Strict Size Budget</span>
+              <span class="toggle-desc">Force exact file size limit (e.g. 24MB Discord / 200KB Gov Portal)</span>
+            </div>
+            <input type="text" id="optBudgetVal" class="budget-input hidden" placeholder="e.g. 200KB or 24MB">
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optTrueVector">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">True Bezier Vectorizer</span>
+              <span class="toggle-desc">Contour trace PNG/JPG to genuine scalable SVG curves</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optExifScrub" checked>
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">Phantom EXIF Sanitizer</span>
+              <span class="toggle-desc">Scrub 100% GPS coordinates, camera serials, and thumbnail caches</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optBgRemove">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">Smart Local Alpha Cutout</span>
+              <span class="toggle-desc">Segment background to transparent PNG (100% offline edge model)</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optAutoRedact">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">PDF Auto-Redact Fortress</span>
+              <span class="toggle-desc">Auto-mask NIK 16 digits, Credit Cards, and Email addresses</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optLufsNormalizer">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">LUFS -14 Broadcast Audio</span>
+              <span class="toggle-desc">Normalize loudness to Spotify/YouTube/EBU streaming standards</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optStripSilence">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">Dead-Air Silence Clipper</span>
+              <span class="toggle-desc">Auto-trim paused silence from podcasts/recordings</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optSpritesheet">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">Game Spritesheet Matrix</span>
+              <span class="toggle-desc">Convert video/GIF into tiled 2D gaming spritesheet atlas</span>
+            </div>
+          </label>
+
+          <label class="toggle-card">
+            <input type="checkbox" id="optRepairMoov">
+            <span class="toggle-indicator"></span>
+            <div class="toggle-info">
+              <span class="toggle-name">MOOV Container Repair</span>
+              <span class="toggle-desc">Fix corrupted MP4 headers and move moov atom to start</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Button Strip -->
+      <div class="action-strip">
+        <button id="convertBtn" class="primary-btn" disabled>
+          <span class="btn-text">EXECUTE CONVERSION</span>
+          <span class="btn-kbd">↵</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Right Panel: Conversion Queue & Logs -->
+    <aside class="panel queue-panel">
+      <div class="panel-header">
+        <span class="panel-title">// 04. PIPELINE QUEUE & OUTPUTS</span>
+      </div>
+
+      <div id="queueList" class="queue-list">
+        <div class="queue-empty">
+          <p>PIPELINE IDLE</p>
+          <span class="subtext">Completed conversions will appear here with delta metrics and instant download</span>
+        </div>
+      </div>
+
+      <!-- Terminal Output Console -->
+      <div class="console-box">
+        <div class="console-header">
+          <span>TERMINAL STDOUT</span>
+          <button id="clearConsoleBtn" class="console-clear">CLEAR</button>
+        </div>
+        <div id="consoleOutput" class="console-output">
+          <div class="log-line info">[SYSTEM] Convert.id Core Engine Initialized.</div>
+          <div class="log-line info">[SYSTEM] Monochromatic developer workbench ready.</div>
+          <div class="log-line dim">[INFO] Waiting for file drop...</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

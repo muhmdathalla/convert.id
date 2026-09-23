@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "convert-id"
+version = "1.0.0"
+description = "Universal All-in-One File Conversion Engine & Ecosystem"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "muhmdathalla", email = "author@convert.id" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "rich>=13.0.0",
+    "pillow>=10.0.0",
+    "pypdf>=4.0.0",
+    "pyyaml>=6.0",
+    "openpyxl>=3.1.0",
+    "watchdog>=4.0.0",
+    "numpy>=1.24.0",
+    "opencv-python>=4.8.0",
+    "pandas>=2.0.0",
+    "python-docx>=1.0.0",
+    "requests>=2.30.0",
+]
+
+[project.scripts]
+convert-id = "convert_id.cli:main"
+convert = "convert_id.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/muhmdathalla/convert.id"
+Repository = "https://github.com/muhmdathalla/convert.id.git"
+Issues = "https://github.com/muhmdathalla/convert.id/issues"

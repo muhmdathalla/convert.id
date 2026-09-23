@@ -1,0 +1,13 @@
+# Convert.id Core Dependencies
+rich>=13.0.0
+pillow>=10.0.0
+pypdf>=4.0.0
+pyyaml>=6.0
+openpyxl>=3.1.0
+watchdog>=4.0.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+pandas>=2.0.0
+pyarrow>=14.0.0
+python-docx>=1.0.0
+requests>=2.30.0
