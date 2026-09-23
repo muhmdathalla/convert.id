@@ -2,6 +2,7 @@
 # Usage: iwr -useb https://raw.githubusercontent.com/muhmdathalla/convert.id/main/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 
 Write-Host ""
 Write-Host "   ______                                __     _     __" -ForegroundColor White
@@ -65,7 +66,12 @@ if (!$ffmpegExists -and !(Test-Path "$BinDir\ffmpeg.exe")) {
     try {
         $zipUrl = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
         $zipDest = "$InstallDir\ffmpeg.zip"
-        Invoke-WebRequest -Uri $zipUrl -OutFile $zipDest -UseBasicParsing
+        if (Get-Command "curl.exe" -ErrorAction SilentlyContinue) {
+            & curl.exe -L -o "$zipDest" "$zipUrl" --progress-bar
+        } else {
+            (New-Object System.Net.WebClient).DownloadFile($zipUrl, $zipDest)
+        }
+        Write-Host "      Extracting FFmpeg binaries..." -ForegroundColor DarkGray
         Expand-Archive -Path $zipDest -DestinationPath "$InstallDir\ffmpeg_temp" -Force
         $ffExe = Get-ChildItem -Path "$InstallDir\ffmpeg_temp" -Recurse -Filter "ffmpeg.exe" | Select-Object -First 1
         $fpExe = Get-ChildItem -Path "$InstallDir\ffmpeg_temp" -Recurse -Filter "ffprobe.exe" | Select-Object -First 1
