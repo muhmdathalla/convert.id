@@ -16,8 +16,14 @@
 
 Install and set up everything (including automated dependency doctor & portable binaries) directly from your terminal:
 
-### 🪟 Windows (PowerShell / CMD)
-Buka PowerShell dan jalankan:
+### 🪟 Windows (Pilih salah satu)
+
+**Jika menggunakan Command Prompt (CMD biasa seperti di screenshot):**
+```cmd
+powershell -c "iwr -useb https://raw.githubusercontent.com/muhmdathalla/convert.id/main/install.ps1 | iex"
+```
+
+**Jika menggunakan PowerShell:**
 ```powershell
 iwr -useb https://raw.githubusercontent.com/muhmdathalla/convert.id/main/install.ps1 | iex
 ```
