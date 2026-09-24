@@ -87,8 +87,8 @@ if (!$ffmpegExists -and !(Test-Path "$BinDir\ffmpeg.exe")) {
     Write-Host "      FFmpeg is already available." -ForegroundColor Green
 }
 
-# 6. Add to PATH
-Write-Host "[4/5] Configuring environment PATH..." -ForegroundColor DarkGray
+# 6. Add to PATH & PowerShell Profile
+Write-Host "[4/5] Configuring environment PATH & PowerShell profile..." -ForegroundColor DarkGray
 $UserPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
 if ($UserPath -notlike "*$BinDir*") {
     [Environment]::SetEnvironmentVariable("Path", "$UserPath;$BinDir", [EnvironmentVariableTarget]::User)
@@ -96,6 +96,21 @@ if ($UserPath -notlike "*$BinDir*") {
     Write-Host "      Added $BinDir to User PATH." -ForegroundColor Green
 } else {
     Write-Host "      User PATH is already configured." -ForegroundColor Green
+}
+
+# Configure PowerShell Profile to override built-in Windows convert.exe (FAT32 converter)
+try {
+    if (!(Test-Path $PROFILE)) {
+        New-Item -Type File -Path $PROFILE -Force | Out-Null
+    }
+    $ProfileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
+    $AliasFunc = "`nfunction convert { python -m convert_id.cli @args }`nfunction convert-id { python -m convert_id.cli @args }`n"
+    if ($ProfileContent -notlike "*function convert {*") {
+        Add-Content -Path $PROFILE -Value $AliasFunc
+        Write-Host "      Configured PowerShell alias to override Windows System32 convert.exe." -ForegroundColor Green
+    }
+} catch {
+    # Ignore profile write permission issues
 }
 
 # 7. Verification
